@@ -6,9 +6,11 @@ Digital elevation models (dem) can contain a lot of errors at water areas. The s
 
 Image 1. Water areas of digital elevation models can contain value errors that affect spatial analyses. 
 
-A good practice is to use vector format polygons for masking the water areas. In Finland you can use Topographic database (Maastotietokanta) data. In this example we want to mask the sea areas to value 0 so we use the MTK-Vakavesi file and the layer "meri". Example of the sea polygons on top of the dem in image 2.
+A good practice is to use vector format polygons for masking the water areas. In Finland you can use Topographic database (Maastotietokanta) data. In this example we want to mask the sea areas to value 0 so we use the MTK-Vakavesi file and the layer "meri". Example of the sea polygons on top of the dem in Image 2.
 
 <img src='https://github.com/geoportti/DEM-masking-with-sea-polygons/blob/master/images/sea_polygons.PNG'>
+Image 2. MTK-Vakavesi polygons intersecting our dem file. Polygons can be used in masking of the water areas.
+
 
 If you don't have acceess to Taito, you can download the MTK-Vakavesi data from [Paituli][1].
 The 2m and 10m dem data of Finland is availabe at [File service of open data][2] by NLS. 
