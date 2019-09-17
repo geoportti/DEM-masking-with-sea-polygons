@@ -13,6 +13,10 @@ A good practice is to use vector format polygons for masking the water areas. In
 If you don't have acceess to Taito, you can download the MTK-Vakavesi data from [Paituli][1].
 The 2m and 10m dem data of Finland is availabe at [File service of open data][2] by NLS. 
 
+## Workflow
+The script Dem_masker.py goes through wanted 2m dem files in Taito. You can define the area of dem files by the 
+
+
 
 
 
