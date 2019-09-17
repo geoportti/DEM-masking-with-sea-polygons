@@ -20,8 +20,10 @@ The 2m and 10m dem data of Finland is availabe at [File service of open data][2]
 The script Dem_masker.py goes through wanted 2m dem files in Taito. You can define the area of dem files by using [the utm map sheet division][3]. We are going to mask all the 2m dem files in the areas of 'L3' and 'K3' map sheets.The 2m dem data is stored in 6km x 6km mapsheets like the one presented in Images 1 and 2. The masking process is good to do one dem file at the time. Once we have found the wanted dem file we can open the file connection using python library called rasterio.
 
 ```pythonscript
+# directory of the MTK-Vakavesi in Taito
+seafp = r'/wrk/project_ogiir-csc/mml/maastotietokanta/2019/gpkg/MTK-vakavesi_19-01-23.gpkg
 
-#directory of the 2m dem files in Taito
+# directory of the 2m dem files in Taito
 demdir =r'/wrk/project_ogiir-csc/mml/dem2m/2008_latest'
 
 # list of the wanted map sheets
@@ -36,16 +38,34 @@ for subdir, dirs, files in os.walk(demdir):
 Next step is to find the intersecting sea polygons with our dem file. This is good to do by using the spatial indexing of the MTK-Vakavesi geopackage. By using the bounds of the dem file, we can efficiently find the intersecting features. 
 
 ```pythonscript
-                   bounds = demdata.bounds
-                    #open the sea areas with fiona 
+                    # bounds of the dem file
+                    bounds = demdata.bounds
+                    # open the sea areas with fiona 
                     with fiona.open(seafp, layer= 'meri') as sea:
-                        #use the spatial indexing of the sea polygons to check if any of them intersects with the dem bounds.
-                        # save the found 
+                        # use the spatial indexing of the sea polygons to check if any of them intersects with the dem bounds 
                         hits = sea.items(bbox=(bounds.left,bounds.bottom,bounds.right,bounds.top))
                         items = [i for i in hits]
 ```
+fafafafafa
 
-
+``` pythonscript
+                    if len(items) > 0:
+                        # read the geometries of the polygons
+                        geoms = [item[1]['geometry'] for item in items]
+                        # read the demdata as array and mask the sea areas to 0 with the geoms.
+                        # invert = True states that the areas under the polygons will be masked. 
+                        demarr, out_transform = mask(demdata,geoms, invert=True)
+                        # copu the metadata of the orginal file
+                        out_meta = demdata.meta.copy()
+                        # name the new file 
+                        outname = os.path.join(outdir1,'{}_masked.tif'.format(filename[0:6]))
+                        # save the file in the masked file directory using rasterio
+                        with rasterio.open(outname,"w", **out_meta) as dest:
+                            dest.write(demarr)
+                        print('masked',filename,'saved')
+                    # if there is no intersecting polygons, continue
+                    else:
+                        continue
 
 
 
