@@ -11,10 +11,14 @@ A good practice is to use vector format polygons for masking the water areas. In
 <img src='https://github.com/geoportti/DEM-masking-with-sea-polygons/blob/master/images/sea_polygons.PNG'>
 
 If you don't have acceess to Taito, you can download the MTK-Vakavesi data from [Paituli][1].
+The 2m and 10m dem data of Finland is availabe at [File service of open data][2] by NLS. 
 
 
 
 
-[1]:'https://avaa.tdata.fi/web/paituli/latauspalvelu?data_id=mml_maasto_10k_2019_gpkg_euref'
+
+
+[1]:https://avaa.tdata.fi/web/paituli/latauspalvelu?data_id=mml_maasto_10k_2019_gpkg_euref
+[2]:https://tiedostopalvelu.maanmittauslaitos.fi/tp/kartta?lang=en
 
 
