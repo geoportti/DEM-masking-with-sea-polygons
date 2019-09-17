@@ -28,11 +28,15 @@ demdir =r'/wrk/project_ogiir-csc/mml/dem2m/2008_latest'
 
 # list of the wanted map sheets
 mapsheets = ['L3','K3']
- 
+
+#loop through the files ad folders of the root. 
 for subdir, dirs, files in os.walk(demdir): 
     for filename in files:
+            # Open only tif files that start with the codes at the mapsheet list
             if filename.endswith(".tif") and filename[0:2] in maplist:
+                # construct a filepath if the filename fills the requirements
                 filepath = os.path.join(subdir,filename)
+                # open file connection to filepath
                 with rasterio.open(filepath) as demdata:
 ```
 Next step is to find the intersecting sea polygons with our dem file. This is good to do by using the spatial indexing of the MTK-Vakavesi geopackage. By using the bounds of the dem file, we can efficiently find the intersecting features. 
