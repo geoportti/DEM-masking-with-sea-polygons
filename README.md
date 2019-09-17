@@ -6,18 +6,44 @@ Digital elevation models (dem) can contain a lot of errors at water areas. The s
 
 Image 1. Water areas of digital elevation models can contain value errors that affect spatial analyses. 
 
-A good practice is to use vector format polygons for masking the water areas. In Finland you can use Topographic database (Maastotietokanta) data. In this example we want to mask the sea areas to value 0 so we use the MTK-Vakavesi file and the layer "meri". Example of the sea polygons on top of the dem in Image 2.
+A good practice is to use vector format polygons for masking the water areas. In Finland you can use Topographic database (Maastotietokanta) data. In this example we want to mask the sea areas to value 0 so we use the MTK-Vakavesi geopackage layer "meri". Example of the sea polygons on top of the dem in Image 2.
 
 <img src='https://github.com/geoportti/DEM-masking-with-sea-polygons/blob/master/images/sea_polygons.PNG'>
 Image 2. MTK-Vakavesi polygons intersecting our dem file. Polygons can be used in masking of the water areas.
 
-
-If you don't have acceess to Taito, you can download the MTK-Vakavesi data from [Paituli][1].
+## Data
+All the data needed in this example are stored in Taito under wrk/project_ogiir-csc folder. 
+If you don't have acceess to Taito, you can download the MTK-Vakavesi geopackage from [Paituli][1].
 The 2m and 10m dem data of Finland is availabe at [File service of open data][2] by NLS. 
 
 ## Workflow
-The script Dem_masker.py goes through wanted 2m dem files in Taito. You can define the area of dem files by the 
+The script Dem_masker.py goes through wanted 2m dem files in Taito. You can define the area of dem files by using [the utm map sheet division][3]. We are going to mask all the 2m dem files in the areas of 'L3' and 'K3' map sheets.The 2m dem data is stored in 6km x 6km mapsheets like the one presented in Images 1 and 2. The masking process is good to do one dem file at the time. Once we have found the wanted dem file we can open the file connection using python library called rasterio.
 
+```pythonscript
+
+#directory of the 2m dem files in Taito
+demdir =r'/wrk/project_ogiir-csc/mml/dem2m/2008_latest'
+
+# list of the wanted map sheets
+mapsheets = ['L3','K3']
+ 
+for subdir, dirs, files in os.walk(demdir): 
+    for filename in files:
+            if filename.endswith(".tif") and filename[0:2] in maplist:
+                filepath = os.path.join(subdir,filename)
+                with rasterio.open(filepath) as demdata:
+```
+Next step is to find the intersecting sea polygons with our dem file. This is good to do by using the spatial indexing of the MTK-Vakavesi geopackage. By using the bounds of the dem file, we can efficiently find the intersecting features. 
+
+```pythonscript
+                   bounds = demdata.bounds
+                    #open the sea areas with fiona 
+                    with fiona.open(seafp, layer= 'meri') as sea:
+                        #use the spatial indexing of the sea polygons to check if any of them intersects with the dem bounds.
+                        # save the found 
+                        hits = sea.items(bbox=(bounds.left,bounds.bottom,bounds.right,bounds.top))
+                        items = [i for i in hits]
+```
 
 
 
@@ -26,5 +52,5 @@ The script Dem_masker.py goes through wanted 2m dem files in Taito. You can defi
 
 [1]:https://avaa.tdata.fi/web/paituli/latauspalvelu?data_id=mml_maasto_10k_2019_gpkg_euref
 [2]:https://tiedostopalvelu.maanmittauslaitos.fi/tp/kartta?lang=en
-
+[3]:https://www.maanmittauslaitos.fi/sites/maanmittauslaitos.fi/files/old/UTM_lehtijakopdf.pdf
 
