@@ -46,31 +46,30 @@ Next step is to find the intersecting sea polygons with our dem file. This is go
                         hits = sea.items(bbox=(bounds.left,bounds.bottom,bounds.right,bounds.top))
                         items = [i for i in hits]
 ```
-fafafafafa
+If intersecting features were found, the 'items' variable should now contain information of those polygons. We can use the geometry of the polygons in masking. Masking is done with rasterio while reading the dem file as numpy array. 'invert= True' states that the areas under the polygon geometries will be masked, not vise versa. The default masking value is 0. More about rasterio mask function at [Rasterio documentation][4]
 
 ``` pythonscript
                     if len(items) > 0:
                         # read the geometries of the polygons
                         geoms = [item[1]['geometry'] for item in items]
-                        # read the demdata as array and mask the sea areas to 0 with the geoms.
-                        # invert = True states that the areas under the polygons will be masked. 
+                        # read the demdata as array and mask the sea areas to 0 with the geoms. 
                         demarr, out_transform = mask(demdata,geoms, invert=True)
-                        # copu the metadata of the orginal file
+```
+After masking we can save the masked file. Before saving we need to copy the metadata of the orginal dem file and construct a new filename. 
+
+```pythonscript
+                        # copy the metadata of the orginal file
                         out_meta = demdata.meta.copy()
                         # name the new file 
                         outname = os.path.join(outdir1,'{}_masked.tif'.format(filename[0:6]))
                         # save the file in the masked file directory using rasterio
                         with rasterio.open(outname,"w", **out_meta) as dest:
                             dest.write(demarr)
-                        print('masked',filename,'saved')
-                    # if there is no intersecting polygons, continue
-                    else:
-                        continue
-
-
+```                       
 
 
 [1]:https://avaa.tdata.fi/web/paituli/latauspalvelu?data_id=mml_maasto_10k_2019_gpkg_euref
 [2]:https://tiedostopalvelu.maanmittauslaitos.fi/tp/kartta?lang=en
 [3]:https://www.maanmittauslaitos.fi/sites/maanmittauslaitos.fi/files/old/UTM_lehtijakopdf.pdf
+[4]:https://rasterio.readthedocs.io/en/stable/topics/masking-by-shapefile.html
 
