@@ -17,7 +17,9 @@ If you don't have acceess to Taito, you can download the MTK-Vakavesi geopackage
 The 2m and 10m dem data of Finland is availabe at [File service of open data][2] by NLS. 
 
 ## Workflow
-The script [Dem_masker.py][5] goes through wanted 2m dem files in Taito. You can define the area of dem files by using [the utm map sheet division][3]. We are going to mask all the 2m dem files in the areas of 'L3' and 'K3' map sheets.The 2m dem data is stored in 6km x 6km mapsheets like the one presented in Images 1 and 2. The masking process is good to do one dem file at the time. Once we have found the wanted dem file we can open the file connection using python library called rasterio.
+The script [Dem_masker.py][5] goes through wanted 2m dem files in Taito and masks them with sea areas of MTK-Vakavesi -geopackage. Run the script by using [the batch script][6]. Here is a detailed walk through of the script:
+
+You can define the area of dem files by using [the utm map sheet division][3]. We are going to mask all the 2m dem files in the areas of 'L3' and 'K3' map sheets.The 2m dem data is stored in 6km x 6km mapsheets like the one presented in Images 1 and 2. The masking process is good to do one dem file at the time. Once we have found the wanted dem file we can open the file connection using python library called rasterio.
 
 ```pythonscript
 # directory of the MTK-Vakavesi in Taito
@@ -79,3 +81,4 @@ Thats it! Now you should have some neatly masked dem files ready for further ana
 [3]:https://www.maanmittauslaitos.fi/sites/maanmittauslaitos.fi/files/old/UTM_lehtijakopdf.pdf
 [4]:https://rasterio.readthedocs.io/en/stable/topics/masking-by-shapefile.html
 [5]:https://github.com/geoportti/DEM-masking-with-sea-polygons/blob/master/Dem_masker.py
+[6]:https://github.com/geoportti/DEM-masking-with-sea-polygons/blob/master/masker_batch
