@@ -70,7 +70,7 @@ After masking we can save the masked file. Before saving we need to copy the met
                         with rasterio.open(outname,"w", **out_meta) as dest:
                             dest.write(demarr)
 ```                       
-
+<img src="https://github.com/geoportti/DEM-masking-with-sea-polygons/blob/master/images/process.png">
 
 [1]:https://avaa.tdata.fi/web/paituli/latauspalvelu?data_id=mml_maasto_10k_2019_gpkg_euref
 [2]:https://tiedostopalvelu.maanmittauslaitos.fi/tp/kartta?lang=en
