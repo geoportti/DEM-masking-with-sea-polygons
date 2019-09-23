@@ -59,7 +59,7 @@ If intersecting features were found, the 'items' variable should now contain inf
                         # read the demdata as array and mask the sea areas to 0 with the geoms. 
                         demarr, out_transform = mask(demdata,geoms, invert=True)
 ```
-After masking we can save the masked file. Before saving we need to copy the metadata of the orginal dem file and construct a new filename. 
+After masking we can save the file. Before saving we need to copy the metadata of the orginal dem file and construct a new filename. 
 
 ```pythonscript
                         # copy the metadata of the orginal file
@@ -69,7 +69,9 @@ After masking we can save the masked file. Before saving we need to copy the met
                         # save the file in the masked file directory using rasterio
                         with rasterio.open(outname,"w", **out_meta) as dest:
                             dest.write(demarr)
-```                       
+```  
+Thats it! Now you should have some neatly masked dem files ready for further analyses!
+
 <img src="https://github.com/geoportti/DEM-masking-with-sea-polygons/blob/master/images/process.png">
 
 [1]:https://avaa.tdata.fi/web/paituli/latauspalvelu?data_id=mml_maasto_10k_2019_gpkg_euref
