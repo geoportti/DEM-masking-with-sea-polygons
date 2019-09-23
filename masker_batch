@@ -1,0 +1,10 @@
+#!/bin/bash -l
+#SBATCH -J masker_batch
+#SBATCH -e masker_error_%j
+#SBATCH -o masker_out_%j
+#SBATCH -t 1:00:00
+#SBATCH -n 1
+#SBATCH -p serial
+
+module load geoconda
+python Dem_masker.py $SLURM_ARRAY_TASK_ID
