@@ -76,6 +76,11 @@ Thats it! Now you should have some neatly masked dem files ready for further ana
 
 <img src="https://github.com/geoportti/DEM-masking-with-sea-polygons/blob/master/images/process.png">
 
+### Terms of use
+When using the scripts or CSC.s computation services, please cite the oGIIR project: "We made use of geospatial data/instructions/computing resources provided by CSC and the Open Geospatial Information Infrastructure for Research (oGIIR, urn:nbn:fi:research-infras-2016072513) funded by the Academy of Finland."
+
+Authored by Akseli Toikka and the Department of Geoinformatics and Cartography at FGI
+
 [1]:https://avaa.tdata.fi/web/paituli/latauspalvelu?data_id=mml_maasto_10k_2019_gpkg_euref
 [2]:https://tiedostopalvelu.maanmittauslaitos.fi/tp/kartta?lang=en
 [3]:https://www.maanmittauslaitos.fi/sites/maanmittauslaitos.fi/files/old/UTM_lehtijakopdf.pdf
